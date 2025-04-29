@@ -33,17 +33,21 @@ class HeartDiseasePredictor:
         if probability < 0.3:
             risk_level = 'Low'
             color = 'success'
+            recommendation = "Keep up the healthy lifestyle!"
         elif probability < 0.7:
             risk_level = 'Medium'
             color = 'warning'
+            recommendation = "Consider moderate lifestyle changes and consult a doctor."
         else:
             risk_level = 'High'
             color = 'danger'
-        
+            recommendation = "Consult a cardiologist immediately and consider major lifestyle changes."
+
         return {
             'probability': probability * 100,  # Convert to percentage
             'risk_level': risk_level,
             'color': color,
+            'recommendation': recommendation,
             'feature_importance': dict(zip(
                 input_df.columns,
                 self.model.feature_importances_

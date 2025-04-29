@@ -8,14 +8,18 @@ document.addEventListener('DOMContentLoaded', function() {
 function initRiskTrendChart() {
     const ctx = document.getElementById('riskTrendChart');
     if (!ctx) return;
-    
+
+    // Assuming the labels and values are passed from Flask and available in the template
+    const labels = JSON.parse(ctx.dataset.labels || '[]');
+    const values = JSON.parse(ctx.dataset.values || '[]');
+
     const chart = new Chart(ctx, {
         type: 'line',
         data: {
-            labels: JSON.parse(ctx.dataset.labels || '[]'),
+            labels: labels,
             datasets: [{
                 label: 'Risk Percentage',
-                data: JSON.parse(ctx.dataset.values || '[]'),
+                data: values,
                 borderColor: '#0d6efd',
                 backgroundColor: 'rgba(13, 110, 253, 0.1)',
                 tension: 0.4,

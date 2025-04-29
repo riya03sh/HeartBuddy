@@ -170,18 +170,43 @@
                     </div>
                 </div>
 
-                <div class="d-flex justify-content-end mt-4 gap-3">
-                    <a href="{{ url_for('dashboard') }}" class="btn btn-outline-heart-primary btn-action">
-                        <i class="bi bi-graph-up"></i> View Dashboard
-                    </a>
-                    <a href="{{ url_for('assessment') }}" class="btn btn-heart-primary btn-action">
-                        <i class="bi bi-arrow-repeat"></i> Reassess
-                    </a>
+                <!-- new buttons added -->
+                <hr class="my-4">
+                <div class="row text-center justify-content-center">
+                    <div class="col-md-4 mb-3">
+                        <a href="{{ url_for('dashboard') }}" class="quick-action-btn btn btn-outline-success w-100">
+                            <i class="bi bi-graph-up-arrow"></i> View on Dashboard
+                        </a>
+                    </div>
+                    <div class="col-md-4 mb-3">
+                        <a href="{{ url_for('assessment') }}" class="quick-action-btn btn btn-outline-danger w-100">
+                            <i class="bi bi-arrow-clockwise"></i> Reassess
+                        </a>
+                    </div>
+                    <div class="col-md-4 mb-3">
+                        <a href="{{ url_for('dashboard') }}#history" class="quick-action-btn btn btn-outline-secondary w-100">
+                            <i class="bi bi-clock-history"></i> View Assessment History
+                        </a>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 </div>
+<!-- toast notification -->
+{% if show_toast %}
+<div class="position-fixed bottom-0 end-0 p-3" style="z-index: 1055">
+    <div id="assessmentToast" class="toast align-items-center text-bg-success border-0" role="alert" aria-live="assertive" aria-atomic="true">
+        <div class="d-flex">
+            <div class="toast-body">
+                ✅ Your assessment has been successfully saved.
+            </div>
+            <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+        </div>
+    </div>
+</div>
+{% endif %}
+
 {% endblock %}
 
 {% block extra_js %}
@@ -230,6 +255,15 @@
                 }
             }
         });
+
+        // Show toast on page load
+        {% if show_toast %}
+        const toastEl = document.getElementById('assessmentToast');
+        if (toastEl) {
+            const toast = new bootstrap.Toast(toastEl, { delay: 3000 });
+            toast.show();
+        }
+        {% endif %}
     });
 </script>
 {% endblock %}

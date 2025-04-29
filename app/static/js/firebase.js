@@ -1,4 +1,4 @@
-// Fixed & Cleaned Firebase Auth + Streak Tracking Code
+// Fixed & Cleaned Firebase Auth 
 
 import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
 import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
@@ -57,7 +57,6 @@ signUp.addEventListener('click', async (event) => {
       firstName,
       lastName,
       lastLoginDate: todayStr,
-      streak: 1
     };
 
     await setDoc(doc(db, "users", user.uid), userData);
