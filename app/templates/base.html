@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HeartGuard - Your Heart Health Companion</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+    <link href="{{ url_for('static', filename='css/main.css') }}" rel="stylesheet">
+    <script type="module" src="/Users/agakshita/Desktop/hb_flask2/app/static/js/firebase.js"></script>
+    {% block extra_css %}{% endblock %}
+</head>
+<body class="bg-heart-light">
+    <!-- Pulsing heart animation in background -->
+    <div class="heart-animation">
+        <div class="heart pulse-1"></div>
+        <div class="heart pulse-2"></div>
+        <div class="heart pulse-3"></div>
+    </div>
+
+    <nav class="navbar navbar-expand-lg navbar-dark bg-heart-primary shadow">
+        <div class="container header-content">
+            <a class="navbar-brand d-flex align-items-center" href="{{ url_for('home') }}">
+                <div class="heart-logo me-2">
+                    <i class="bi bi-heart-pulse"></i>
+                </div>
+                <span style="font-size: 30px; font-weight: bolder;">HeartGuard</span>
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" title="navbar toggler btn">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('home') }}" style="font-size: 18px;">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('assessment') }}" style="font-size: 18px;">Assessment</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('dashboard') }}" style="font-size: 18px;">Dashboard</a>
+                    </li>
+                    <!-- meal planner -->
+                    <!-- med reminder -->
+                    <li class="nav-item">
+                        <a class="nav-link" href="#how-it-works"  style="font-size: 18px;">Services</a>
+                    </li>
+                    <!-- Conditional rendering based on auth status -->
+                    {% if current_user.is_authenticated %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('logout') }}" style="font-size: 18px;">Sign Out</a>
+                    </li>
+                    {% else %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('auth') }}" style="font-size: 18px;">Sign In</a>
+                    </li>
+                    {% endif %}
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <main class="container my-5 position-relative">
+        {% block content %}{% endblock %}
+    </main>
+
+    <footer class="bg-heart-dark text-white py-4 mt-5">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-4 mb-4 mb-lg-0">
+                    <h5 class="text-heart-light mb-3"><i class="bi bi-heart-pulse"></i> HeartGuard</h5>
+                    <p>Your trusted companion for heart health assessment and management.</p>
+                    <div class="social-icons">
+                        <a href="#" class="text-white me-2"><i class="bi bi-facebook"></i></a>
+                        <a href="#" class="text-white me-2"><i class="bi bi-twitter"></i></a>
+                        <a href="#" class="text-white me-2"><i class="bi bi-instagram"></i></a>
+                    </div>
+                </div>
+                <div class="col-lg-4 mb-4 mb-lg-0">
+                    <h5 class="text-heart-light mb-3">Quick Links</h5>
+                    <ul class="list-unstyled">
+                        <li class="mb-2"><a href="{{ url_for('home') }}" class="text-white">Home</a></li>
+                        <li class="mb-2"><a href="{{ url_for('assessment') }}" class="text-white">Risk Assessment</a></li>
+                        <li class="mb-2"><a href="{{ url_for('dashboard') }}" class="text-white">Dashboard</a></li>
+                        <li class="mb-2"><a href="#" class="text-white">Privacy Policy</a></li>
+
+                    </ul>
+                </div>
+                <div class="col-lg-4">
+                    <h5 class="text-heart-light mb-3">Contact Us</h5>
+                    <p><i class="bi bi-envelope me-2"></i> support@heartguard.com</p>
+                    <p><i class="bi bi-telephone me-2"></i> +1 (555) 123-4567</p>
+                    <div class="heart-rate mt-3">
+                        <span class="text-heart-light">Healthy heart rate:</span>
+                        <div class="rate-display">
+                            <div class="beat"></div>
+                            <div class="beat"></div>
+                            <div class="beat"></div>
+                            <div class="beat"></div>
+                            <div class="beat"></div>
+                            <span>60-100 bpm</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <hr class="my-4 bg-heart-light">
+            <div class="text-center">
+                <p class="mb-0">HeartGuard &copy; 2023 | For educational purposes only</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    {% block extra_js %}{% endblock %}
+</body>
+</html>

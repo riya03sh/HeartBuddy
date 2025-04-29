@@ -1,0 +1,242 @@
+{% extends "base.html" %}
+
+{% block extra_css %}
+<style>
+    .hero-section {
+        position: relative;
+        overflow: hidden;
+        padding: 5rem 0;
+        background: linear-gradient(135deg, rgba(220,53,69,0.1) 0%, rgba(255,255,255,1) 100%);
+    }
+    
+    .hero-heart {
+        position: absolute;
+        opacity: 0.1;
+        z-index: 0;
+    }
+    
+    .hero-heart-1 {
+        top: 10%;
+        left: 5%;
+        font-size: 10rem;
+        animation: float 6s ease-in-out infinite;
+    }
+    
+    .hero-heart-2 {
+        bottom: 15%;
+        right: 10%;
+        font-size: 8rem;
+        animation: float 8s ease-in-out infinite;
+    }
+    
+    .feature-card {
+        transition: all 0.3s ease;
+        border-radius: 15px;
+        overflow: hidden;
+        border: none;
+        box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+    }
+    
+    .feature-card:hover {
+        transform: translateY(-10px);
+        box-shadow: 0 15px 30px rgba(220,53,69,0.1);
+    }
+    
+    .feature-icon {
+        font-size: 2.5rem;
+        margin-bottom: 1rem;
+        color: #dc3545;
+    }
+    
+    @keyframes float {
+        0% { transform: translateY(0px); }
+        50% { transform: translateY(-20px); }
+        100% { transform: translateY(0px); }
+    }
+    
+    .btn-heart-primary {
+        background-color: #dc3545;
+        color: white;
+        border: none;
+        padding: 0.75rem 2rem;
+        border-radius: 50px;
+        font-weight: 600;
+        transition: all 0.3s ease;
+    }
+    
+    .btn-heart-primary:hover {
+        background-color: #bb2d3b;
+        transform: translateY(-2px);
+        box-shadow: 0 5px 15px rgba(220,53,69,0.3);
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="hero-section">
+    <i class="bi bi-heart-fill hero-heart hero-heart-1 text-heart-primary"></i>
+    <i class="bi bi-heart hero-heart hero-heart-2 text-heart-primary"></i>
+    
+    <div class="container" style="z-index: 1;">
+        <div class="row align-items-center">
+            <div class="col-lg-6">
+                <h1 class="display-4 fw-bold mb-4 animate__animated animate__fadeInDown">Take Control of Your <span class="text-heart-primary">Heart Health</span></h1>
+                <p class="lead mb-4 animate__animated animate__fadeIn animate__delay-1s">HeartGuard provides personalized heart disease risk assessment and health recommendations based on clinical parameters and advanced machine learning.</p>
+                <div class="d-flex gap-3 animate__animated animate__fadeIn animate__delay-2s">
+                    <a href="{{ url_for('assessment') }}" class="btn btn-heart-primary btn-lg px-4">
+                        Start Assessment <i class="bi bi-arrow-right ms-2"></i>
+                    </a>
+
+                </div>
+            </div>
+            <div class="ecg-wave-container">
+                <img src="../static/assets/image.png" alt="protected heartbeats" class="hero-bg-img">
+            </div>
+        </div>
+    </div>
+</div>
+
+<section id="how-it-works" class="py-5 bg-white">
+    <div class="container">
+        <div class="text-center mb-5">
+            <h2 class="fw-bold">How HeartGuard Works</h2>
+            <p class="text-muted">Three simple steps to understand your heart health</p>
+            <div class="heart-divider">
+                <i class="bi bi-heart-fill"></i>
+                <i class="bi bi-heart-fill"></i>
+                <i class="bi bi-heart-fill"></i>
+            </div>
+        </div>
+        <div class="row g-4">
+            <div class="col-md-4">
+                <div class="feature-card h-100 p-4 text-center">
+                    <div class="feature-icon">
+                        <i class="bi bi-clipboard2-pulse"></i>
+                    </div>
+                    <h3>Complete Assessment</h3>
+                    <p class="text-muted">Provide your health parameters through our secure, easy-to-use form that takes just 5 minutes.</p>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="feature-card h-100 p-4 text-center">
+                    <div class="feature-icon">
+                        <i class="bi bi-cpu"></i>
+                    </div>
+                    <h3>AI Analysis</h3>
+                    <p class="text-muted">Our clinically validated machine learning model analyzes your risk factors with 92% accuracy.</p>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="feature-card h-100 p-4 text-center">
+                    <div class="feature-icon">
+                        <i class="bi bi-graph-up"></i>
+                    </div>
+                    <h3>Personalized Results</h3>
+                    <p class="text-muted">Receive detailed risk assessment, health insights, and actionable recommendations.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="py-5 bg-heart-light">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-lg-6 mb-4 mb-lg-0">
+                <div class="heart-rate-display">
+                    <div class="heart-beat">
+                        <div class="beat-line"></div>
+                    </div>
+                    <div class="heart-rate-info">
+                        <h3 class="text-heart-primary">Track Your Progress</h3>
+                        <p>Monitor changes in your heart health over time with our intuitive dashboard.</p>
+                        <a href="{{ url_for('dashboard') }}" class="btn btn-outline-heart-primary">View Dashboard</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <h2 class="fw-bold mb-3">Why Heart Health Matters</h2>
+                <div class="accordion" id="heartHealthAccordion">
+                    <div class="accordion-item border-0 mb-3 shadow-sm">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button bg-white" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne">
+                                <i class="bi bi-heart-pulse text-heart-primary me-2"></i> Heart Disease Facts
+                            </button>
+                        </h2>
+                        <div id="collapseOne" class="accordion-collapse collapse show" data-bs-parent="#heartHealthAccordion">
+                            <div class="accordion-body">
+                                <p>Heart disease is the leading cause of death globally, responsible for 17.9 million deaths each year. Early detection and lifestyle changes can prevent 80% of premature heart disease.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="accordion-item border-0 mb-3 shadow-sm">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button collapsed bg-white" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo">
+                                <i class="bi bi-shield-check text-heart-primary me-2"></i> Prevention Tips
+                            </button>
+                        </h2>
+                        <div id="collapseTwo" class="accordion-collapse collapse" data-bs-parent="#heartHealthAccordion">
+                            <div class="accordion-body">
+                                <ul class="list-group list-group-flush">
+                                    <li class="list-group-item border-0">Eat a heart-healthy diet</li>
+                                    <li class="list-group-item border-0">Exercise regularly (150 mins/week)</li>
+                                    <li class="list-group-item border-0">Maintain a healthy weight</li>
+                                    <li class="list-group-item border-0">Manage stress effectively</li>
+                                    <li class="list-group-item border-0">Get regular health screenings</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="accordion-item border-0 shadow-sm">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button collapsed bg-white" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree">
+                                <i class="bi bi-graph-up-arrow text-heart-primary me-2"></i> Early Detection
+                            </button>
+                        </h2>
+                        <div id="collapseThree" class="accordion-collapse collapse" data-bs-parent="#heartHealthAccordion">
+                            <div class="accordion-body">
+                                <p>Regular risk assessments can identify potential issues before symptoms appear. Our tool helps you understand your risk factors and take proactive steps toward better heart health.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="py-5 bg-white">
+    <div class="container text-center">
+        <h2 class="fw-bold mb-4">Ready to Check Your Heart Health?</h2>
+        <p class="lead mb-5">Take the first step toward a healthier heart today</p>
+        <a href="{{ url_for('assessment') }}" class="btn btn-heart-primary btn-lg px-5 py-3">
+            Start Free Assessment <i class="bi bi-arrow-right ms-2"></i>
+        </a>
+    </div>
+</section>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    // Heart beat animation
+    document.addEventListener('DOMContentLoaded', function() {
+        // Animate the heart line in the monitor
+        const heartLine = document.querySelector('.heart-line');
+        if (heartLine) {
+            setInterval(() => {
+                heartLine.style.animation = 'none';
+                void heartLine.offsetWidth; // Trigger reflow
+                heartLine.style.animation = 'heartbeat 1.5s ease-in-out infinite';
+            }, 100);
+        }
+        
+        // Animate pulse indicator
+        const pulseIndicator = document.querySelector('.pulse-indicator');
+        if (pulseIndicator) {
+            setInterval(() => {
+                pulseIndicator.classList.toggle('pulse');
+            }, 1500);
+        }
+    });
+</script>
+{% endblock %}

@@ -1,0 +1,10 @@
+/firebase/serviceAccountKey.json
+*/serviceAccountKey.json
+*.json
+myvenv
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.DS_Store
+Thumbs.db

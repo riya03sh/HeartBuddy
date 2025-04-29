@@ -1,0 +1,343 @@
+{% extends "base.html" %}
+
+{% block extra_css %}
+<style>
+    .form-section {
+        background-color: white;
+        border-radius: 15px;
+        padding: 25px;
+        margin-bottom: 25px;
+        box-shadow: 0 5px 15px rgba(220, 53, 69, 0.05);
+        border-left: 4px solid var(--heart-primary);
+    }
+    
+    .form-section h5 {
+        color: var(--heart-primary);
+        font-weight: 600;
+        margin-bottom: 1.5rem;
+        display: flex;
+        align-items: center;
+    }
+    
+    .form-section h5 i {
+        margin-right: 10px;
+        font-size: 1.2em;
+    }
+    
+    /* Modern way to remove number input spinners */
+    input[type="number"] {
+        appearance: textfield;
+        -webkit-appearance: textfield;
+        -moz-appearance: textfield;
+    }
+    
+    input[type="number"]::-webkit-inner-spin-button,
+    input[type="number"]::-webkit-outer-spin-button {
+        -webkit-appearance: none;
+        margin: 0;
+    }
+    
+    .btn-gender {
+        transition: all 0.3s ease;
+    }
+    
+    .btn-gender:hover {
+        transform: translateY(-2px);
+    }
+    
+    .btn-submit {
+        background-color: var(--heart-primary);
+        border: none;
+        padding: 1rem 2rem;
+        font-size: 1.1rem;
+        font-weight: 600;
+        letter-spacing: 0.5px;
+        transition: all 0.3s ease;
+    }
+    
+    .btn-submit:hover {
+        background-color: #bb2d3b;
+        transform: translateY(-3px);
+        box-shadow: 0 5px 15px rgba(220, 53, 69, 0.3);
+    }
+    
+    .form-label {
+        font-weight: 500;
+        color: var(--heart-dark);
+    }
+    
+    .form-control, .form-select {
+        border-radius: 10px;
+        padding: 0.75rem 1rem;
+        border: 1px solid rgba(0,0,0,0.1);
+    }
+    
+    .form-control:focus, .form-select:focus {
+        border-color: var(--heart-primary);
+        box-shadow: 0 0 0 0.25rem rgba(220, 53, 69, 0.25);
+    }
+    
+    .invalid-feedback {
+        color: var(--heart-danger);
+    }
+    
+    .was-validated .form-control:invalid, 
+    .was-validated .form-select:invalid {
+        border-color: var(--heart-danger);
+    }
+    
+    .was-validated .form-control:valid, 
+    .was-validated .form-select:valid {
+        border-color: var(--heart-success);
+    }
+    
+    .form-check-input:checked {
+        background-color: var(--heart-primary);
+        border-color: var(--heart-primary);
+    }
+    
+    .form-check-input:focus {
+        box-shadow: 0 0 0 0.25rem rgba(220, 53, 69, 0.25);
+    }
+    
+    .card-assessment {
+        border: none;
+        border-radius: 15px;
+        overflow: hidden;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+    }
+    
+    .card-header-assessment {
+        background-color: white;
+        border-bottom: 1px solid rgba(0,0,0,0.05);
+        padding: 1.5rem;
+    }
+    
+    .card-header-assessment h2 {
+        color: var(--heart-primary);
+        font-weight: 700;
+        display: flex;
+        align-items: center;
+    }
+    
+    .card-header-assessment i {
+        margin-right: 10px;
+        font-size: 1.3em;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-lg-10">
+        <div class="card card-assessment">
+            <div class="card-header card-header-assessment">
+                <h2 class="h4 mb-0"><i class="bi bi-clipboard2-pulse"></i> Heart Disease Risk Assessment</h2>
+            </div>
+            <div class="card-body">
+                <form method="POST" class="needs-validation" novalidate>
+                    <!-- Personal Information -->
+                    <div class="form-section">
+                        <h5 class="mb-4"><i class="bi bi-person"></i> Personal Information</h5>
+                        <div class="row g-3">
+                            <div class="col-md-6">
+                                <label for="age" class="form-label">Age (years)</label>
+                                <input type="number" class="form-control" id="age" name="age" 
+                                       min="20" max="100" required
+                                       title="Enter your age between 20 and 100"
+                                       oninput="this.value=this.value.slice(0,3)">
+                                <div class="invalid-feedback">
+                                    Please enter a valid age between 20 and 100
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label">Sex</label>
+                                <div class="btn-group w-100" role="group" aria-label="Gender selection">
+                                    <input type="radio" class="btn-check" name="sex" id="male" value="male" autocomplete="off" required>
+                                    <label class="btn btn-outline-heart-primary btn-gender" for="male" title="Male"><i class="bi bi-gender-male"></i> Male</label>
+                                    <input type="radio" class="btn-check" name="sex" id="female" value="female" autocomplete="off">
+                                    <label class="btn btn-outline-heart-primary btn-gender" for="female" title="Female"><i class="bi bi-gender-female"></i> Female</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Medical Information -->
+                    <div class="form-section">
+                        <h5 class="mb-4"><i class="bi bi-heart-pulse"></i> Medical Information</h5>
+                        <div class="row g-3">
+                            <div class="col-md-6">
+                                <label for="resting_bp" class="form-label">Resting Blood Pressure (mm Hg)</label>
+                                <input type="number" class="form-control" id="resting_bp" name="resting_bp" 
+                                       min="80" max="200" required
+                                       title="Enter resting blood pressure between 80 and 200"
+                                       oninput="this.value=this.value.slice(0,3)">
+                                <div class="invalid-feedback">
+                                    Please enter a value between 80 and 200
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="cholesterol" class="form-label">Cholesterol (mg/dL)</label>
+                                <input type="number" class="form-control" id="cholesterol" name="cholesterol" 
+                                       min="100" max="600" required
+                                       title="Enter cholesterol level between 100 and 600"
+                                       oninput="this.value=this.value.slice(0,3)">
+                                <div class="invalid-feedback">
+                                    Please enter a value between 100 and 600
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="max_hr" class="form-label">Maximum Heart Rate (bpm)</label>
+                                <input type="number" class="form-control" id="max_hr" name="max_hr" 
+                                       min="60" max="220" required
+                                       title="Enter maximum heart rate between 60 and 220"
+                                       oninput="this.value=this.value.slice(0,3)">
+                                <div class="invalid-feedback">
+                                    Please enter a value between 60 and 220
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="st_depression" class="form-label">ST Depression</label>
+                                <input type="number" step="0.1" class="form-control" id="st_depression" name="st_depression" 
+                                       min="0" max="6" required
+                                       title="Enter ST depression value between 0.0 and 6.0"
+                                       oninput="validateFloatInput(this)">
+                                <div class="invalid-feedback">
+                                    Please enter a value between 0.0 and 6.0
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- ECG and Additional Features -->
+                    <div class="form-section">
+                        <h5 class="mb-4"><i class="bi bi-clipboard2-data"></i> ECG & Additional Parameters</h5>
+                        <div class="row g-3">
+                            <div class="col-md-4">
+                                <label for="restecg" class="form-label">Resting ECG Results</label>
+                                <select class="form-select" name="restecg" id="restecg" required title="Select your resting ECG result">
+                                    <option value="" selected disabled>Select result</option>
+                                    <option value="0">Normal</option>
+                                    <option value="1">ST-T wave abnormality</option>
+                                    <option value="2">Left ventricular hypertrophy</option>
+                                </select>
+                            </div>
+                            <div class="col-md-4">
+                                <label for="chest_pain" class="form-label">Chest Pain Type</label>
+                                <select class="form-select" name="chest_pain" id="chest_pain" required title="Select your chest pain type">
+                                    <option value="" selected disabled>Select type</option>
+                                    <option value="0">Typical angina</option>
+                                    <option value="1">Atypical angina</option>
+                                    <option value="2">Non-anginal pain</option>
+                                    <option value="3">Asymptomatic</option>
+                                </select>
+                            </div>
+                            <div class="col-md-4">
+                                <label for="st_slope" class="form-label">ST Slope</label>
+                                <select class="form-select" name="st_slope" id="st_slope" required title="Select your ST slope">
+                                    <option value="" selected disabled>Select slope</option>
+                                    <option value="0">Upsloping</option>
+                                    <option value="1">Flat</option>
+                                    <option value="2">Downsloping</option>
+                                </select>
+                            </div>
+                            <div class="col-md-4">
+                                <label for="thalassemia" class="form-label">Thalassemia</label>
+                                <select class="form-select" name="thalassemia" id="thalassemia" required title="Select your thalassemia type">
+                                    <option value="" selected disabled>Select type</option>
+                                    <option value="1">Normal</option>
+                                    <option value="2">Fixed defect</option>
+                                    <option value="3">Reversible defect</option>
+                                </select>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" id="fasting_bs" name="fasting_bs" value="1" title="Fasting blood sugar > 120 mg/dL">
+                                    <label class="form-check-label" for="fasting_bs">
+                                        Fasting Blood Sugar > 120 mg/dL
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" id="exercise_angina" name="exercise_angina" value="1" title="Exercise induced angina">
+                                    <label class="form-check-label" for="exercise_angina">
+                                        Exercise Induced Angina
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <label for="vessels" class="form-label">Number of Major Vessels</label>
+                                <select class="form-select" name="vessels" id="vessels" required title="Select number of major vessels">
+                                    <option value="0">0</option>
+                                    <option value="1">1</option>
+                                    <option value="2">2</option>
+                                    <option value="3">3</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="d-grid mt-4">
+                        <button type="submit" class="btn btn-submit btn-lg" title="Calculate heart disease risk">
+                            <i class="bi bi-calculator"></i> Calculate My Risk
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    // Remove spinner arrows and prevent wheel scrolling
+    document.querySelectorAll('input[type="number"]').forEach(input => {
+        input.addEventListener('wheel', function(e) {
+            e.preventDefault();
+        });
+    });
+
+    // Float validation for ST Depression
+    function validateFloatInput(input) {
+        // Allow backspace, delete, tab, escape, enter
+        if ([46, 8, 9, 27, 13].includes(event.keyCode) ||
+            // Allow: Ctrl+A, Ctrl+C, Ctrl+V, Ctrl+X
+            (event.keyCode === 65 && event.ctrlKey === true) ||
+            (event.keyCode === 67 && event.ctrlKey === true) ||
+            (event.keyCode === 86 && event.ctrlKey === true) ||
+            (event.keyCode === 88 && event.ctrlKey === true) ||
+            // Allow: decimal point
+            (event.keyCode === 190 || event.keyCode === 110)) {
+            return;
+        }
+        
+        // Ensure it's a number or decimal point
+        if ((event.keyCode < 48 || event.keyCode > 57) && (event.keyCode < 96 || event.keyCode > 105)) {
+            event.preventDefault();
+        }
+        
+        // Limit to one decimal point
+        if ((event.keyCode === 190 || event.keyCode === 110) && input.value.includes('.')) {
+            event.preventDefault();
+        }
+    }
+
+    // Form validation
+    (function() {
+        'use strict';
+        const forms = document.querySelectorAll('.needs-validation');
+        
+        Array.from(forms).forEach(form => {
+            form.addEventListener('submit', event => {
+                if (!form.checkValidity()) {
+                    event.preventDefault();
+                    event.stopPropagation();
+                }
+                form.classList.add('was-validated');
+            }, false);
+        });
+    })();
+</script>
+{% endblock %}

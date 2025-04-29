@@ -1,0 +1,179 @@
+/* HeartGuard Color Theme */
+:root {
+    --heart-primary: #dc3545;
+    --heart-primary-light: rgba(220, 53, 69, 0.1);
+    --heart-secondary: #6c757d;
+    --heart-light: #f8f9fa;
+    --heart-dark: #343a40;
+    --heart-success: #28a745;
+    --heart-warning: #ffc107;
+    --heart-danger: #dc3545;
+    --heart-info: #17a2b8;
+}
+
+/* Background colors */
+.bg-heart-primary {
+    background-color: var(--heart-primary) !important;
+}
+
+.bg-heart-light {
+    background-color: var(--heart-light) !important;
+}
+
+.bg-heart-dark {
+    background-color: var(--heart-dark) !important;
+}
+
+/* Text colors */
+.text-heart-primary {
+    color: var(--heart-primary) !important;
+}
+
+.text-heart-light {
+    color: var(--heart-light) !important;
+}
+
+.text-heart-dark {
+    color: var(--heart-dark) !important;
+}
+
+/* Button styles */
+.btn-heart-primary {
+    background-color: var(--heart-primary);
+    color: white;
+}
+
+.btn-heart-primary:hover {
+    background-color: #bb2d3b;
+    color: white;
+}
+
+.btn-outline-heart-primary {
+    border-color: var(--heart-primary);
+    color: var(--heart-primary);
+}
+
+.btn-outline-heart-primary:hover {
+    background-color: var(--heart-primary);
+    color: white;
+}
+
+.btn-outline-heart-secondary {
+    border-color: var(--heart-secondary);
+    color: var(--heart-secondary);
+}
+
+.btn-outline-heart-secondary:hover {
+    background-color: var(--heart-secondary);
+    color: white;
+}
+
+/* Alert styles */
+.alert-heart-light {
+    background-color: var(--heart-primary-light);
+    border-left: 4px solid var(--heart-primary);
+}
+
+/* Heart animations */
+.heart-animation {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: -1;
+    overflow: hidden;
+}
+
+.heart {
+    position: absolute;
+    background-color: var(--heart-primary-light);
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.heart.pulse-1 {
+    width: 300px;
+    height: 300px;
+    top: 20%;
+    left: 10%;
+    animation: pulse 6s infinite;
+}
+
+.heart.pulse-2 {
+    width: 200px;
+    height: 200px;
+    top: 70%;
+    left: 80%;
+    animation: pulse 8s infinite 2s;
+}
+
+.heart.pulse-3 {
+    width: 150px;
+    height: 150px;
+    top: 40%;
+    left: 60%;
+    animation: pulse 5s infinite 4s;
+}
+
+@keyframes pulse {
+    0% { transform: translate(-50%, -50%) scale(1); opacity: 0.1; }
+    50% { transform: translate(-50%, -50%) scale(1.3); opacity: 0.05; }
+    100% { transform: translate(-50%, -50%) scale(1); opacity: 0.1; }
+}
+
+/* Heart logo animation */
+.heart-logo {
+    display: inline-block;
+    animation: heartbeat 1.5s ease infinite;
+}
+
+@keyframes heartbeat {
+    0% { transform: scale(1); }
+    25% { transform: scale(1.1); }
+    50% { transform: scale(1); }
+    75% { transform: scale(1.1); }
+    100% { transform: scale(1); }
+}
+
+.hero-bg-img {
+    position: absolute;
+    right: 2rem;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 40%;
+    /* opacity: 0.1; adjust for subtlety */
+    pointer-events: none;
+    z-index: 1;
+    mix-blend-mode: multiply; /* try screen, soft-light, etc. for effect */
+  }
+
+
+/* Heart rate display */
+.heart-rate-display {
+    background-color: white;
+    border-radius: 15px;
+    padding: 2rem;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+}
+
+.heart-beat {
+    position: relative;
+    height: 100px;
+    margin-bottom: 1.5rem;
+}
+
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .hero-section {
+        padding: 3rem 0;
+    }
+    
+    .heart-animation {
+        display: none;
+    }
+}
+
+
