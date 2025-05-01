@@ -1,0 +1,56 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container mt-5">
+    <h1 class="text-heart-primary mb-4">
+        <i class="bi bi-alarm me-2"></i> Your Medication Schedule
+    </h1>
+    
+    <div class="card mb-4">
+        <div class="card-body">
+            <h3 class="card-title">Extracted Medications</h3>
+            <ul class="list-group">
+                {% for med in medications %}
+                <li class="list-group-item">
+                    <strong>{{ med.name }}</strong> - {{ med.dosage }} ({{ med.frequency }})
+                </li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+    
+    <div class="card">
+        <div class="card-body">
+            <h3 class="card-title">Recommended Schedule</h3>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Medication</th>
+                        <th>Dosage</th>
+                        <th>Times</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for item in schedule %}
+                    <tr>
+                        <td>{{ item.medication }}</td>
+                        <td>{{ item.dosage }}</td>
+                        <td>
+                            {% for time in item.times %}
+                            <span class="badge bg-primary me-2">{{ time }}</span>
+                            {% endfor %}
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+    
+    <div class="mt-4">
+        <a href="{{ url_for('med_reminder_home') }}" class="btn btn-heart">
+            <i class="bi bi-arrow-left me-2"></i> Back to Upload
+        </a>
+    </div>
+</div>
+{% endblock %}

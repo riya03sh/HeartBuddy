@@ -1,14 +1,23 @@
 # app.py - Combined Flask Application
-from flask import Flask, render_template, request, redirect, url_for, session, jsonify
+from flask import Flask, render_template, request, redirect, url_for, session, jsonify, flash
 from flask_login import LoginManager, UserMixin, login_user, logout_user, current_user, login_required
-from datetime import datetime, timezone, timedelta
+from datetime import datetime, timezone, timedelta, date
 import pandas as pd
+import logging
 import json
 import firebase_admin
 from firebase_admin import auth, credentials, firestore
 from werkzeug.utils import secure_filename
 import os
 from utils.model_predictor import predictor
+from utils.meal_planner import get_meal_plan
+from utils.medication_reminder import (  # Import your medication functions
+    allowed_file, extract_text_from_image, 
+    extract_text_from_pdf, parse_medication_details,
+    create_reminder_schedule
+)
+from routes.meal import meal_bp
+from routes.medication import med_bp
 
 # Initialize Flask Application
 app = Flask(__name__)
@@ -43,6 +52,29 @@ def load_user(user_id):
 # ======================
 # Application Routes
 # ======================
+
+# Register blueprints
+app.register_blueprint(meal_bp)
+app.register_blueprint(med_bp)
+
+ALLOWED_RISK_LEVELS = ['low', 'moderate', 'high']
+ALLOWED_DURATIONS = ['daily', 'week']
+ALLOWED_PREFERENCES = ['veg', 'non-veg']
+
+def validate_form_input(risk, pref, duration):
+    '''Validate user input against allowed values'''
+    errors = []
+    
+    if risk.lower() not in ALLOWED_RISK_LEVELS:
+        errors.append(f"Invalid risk level. Allowed values: {', '.join(ALLOWED_RISK_LEVELS)}")
+    
+    if pref.lower() not in ALLOWED_PREFERENCES:
+        errors.append(f"Invalid preference. Allowed values: {', '.join(ALLOWED_PREFERENCES)}")
+    
+    if duration.lower() not in ALLOWED_DURATIONS:
+        errors.append(f"Invalid duration. Allowed values: {', '.join(ALLOWED_DURATIONS)}")
+    
+    return errors
 
 @app.route('/')
 def home():
@@ -250,15 +282,97 @@ def dashboard():
                            labels=[h['date'] for h in history],  # Risk trend labels
                            values=[h['risk'] for h in history])  # Risk trend values
 
+app.config['UPLOAD_FOLDER'] = os.path.join(os.path.dirname(__file__), 'uploads')
+os.makedirs(app.config['UPLOAD_FOLDER'], exist_ok=True)
+logger = logging.getLogger(__name__)
 
-# ======================
-# Helper Functions
-# ======================
+# meal planner
+@app.route('/meal-planner', methods=['GET', 'POST'])
+@login_required
+def meal_planner_form():
+    try:
+        if request.method == 'POST':
+            risk = request.form.get('risk', '').lower()
+            pref = request.form.get('preference', '').lower()
+            duration = request.form.get('duration', '').lower()
 
-def allowed_file(filename):
-    """Check if file extension is allowed"""
-    return '.' in filename and \
-           filename.rsplit('.', 1)[1].lower() in {'csv', 'json'}
+            errors = validate_form_input(risk, pref, duration)
+            if errors:
+                for error in errors:
+                    flash(error, 'error')
+                return redirect(url_for('meal_planner_form'))
+
+            api_duration = 'day' if duration == 'daily' else 'week'
+            data, cal = get_meal_plan(risk, pref, time_frame=api_duration)
+
+            if not data:
+                flash("No meal plan found for the given criteria", 'warning')
+                return redirect(url_for('meal_planner_form'))
+
+            result = {
+                "risk": risk,
+                "preference": pref,
+                "duration": duration,
+                "data": data,
+                "calories": cal,
+                "generated_date": date.today().strftime("%B %d, %Y")
+            }
+
+            flash("Meal plan generated successfully!", 'success')
+            return render_template('meal_planner/meal_plan.html', result=result)
+
+    except Exception as e:
+        logger.error(f"Error generating meal plan: {str(e)}", exc_info=True)
+        flash("An unexpected error occurred. Please try again later.", 'error')
+        return redirect(url_for('meal_planner_form'))
+
+    return render_template('meal_planner/meal_plan.html', result=None)
+
+# med reminder
+@app.route('/med-reminder', methods=['GET'])
+@login_required
+def med_reminder_home():
+    return render_template('med_reminder/upload.html')
+
+@app.route('/med-reminder/upload', methods=['POST'])
+@login_required
+def med_reminder_upload():
+    if 'file' not in request.files:
+        flash('No file selected', 'error')
+        return redirect(url_for('med_reminder_home'))
+    
+    file = request.files['file']
+    notes = request.form.get('notes', '')
+    
+    if file.filename == '':
+        flash('No file selected', 'error')
+        return redirect(url_for('med_reminder_home'))
+    
+    if file and allowed_file(file.filename):
+        try:
+            filename = secure_filename(file.filename)
+            filepath = os.path.join(app.config['UPLOAD_FOLDER'], filename)
+            file.save(filepath)
+            
+            if filename.lower().endswith('.pdf'):
+                text = extract_text_from_pdf(filepath)
+            else:
+                text = extract_text_from_image(filepath)
+            
+            medications = parse_medication_details(text + "\n" + notes)
+            schedule = create_reminder_schedule(medications)
+            
+            return render_template('med_reminder/schedule.html', 
+                                   medications=medications,
+                                   schedule=schedule)
+            
+        except Exception as e:
+            logger.error(f"Error processing medication: {str(e)}")
+            flash('Error processing your prescription', 'error')
+            return redirect(url_for('med_reminder_home'))
+    
+    flash('Invalid file type', 'error')
+    return redirect(url_for('med_reminder_home'))
 
 # ======================
 # Application Entry Point

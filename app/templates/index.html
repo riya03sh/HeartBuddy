@@ -2,241 +2,562 @@
 
 {% block extra_css %}
 <style>
+    /* Enhanced Heart-themed Styles */
+    :root {
+        --heart-primary: #dc3545;
+        --heart-secondary: #bb2d3b;
+        --heart-light: rgba(220, 53, 69, 0.1);
+        --heart-dark: #8a1823;
+        --accent-blue: #1d3557;
+        --accent-teal: #457b9d;
+        --light-bg: #f8f9fa;
+    }
+    
+    /* Hero Section */
     .hero-section {
         position: relative;
         overflow: hidden;
-        padding: 5rem 0;
-        background: linear-gradient(135deg, rgba(220,53,69,0.1) 0%, rgba(255,255,255,1) 100%);
+        padding: 6rem 0 4rem;
+        background: linear-gradient(135deg, var(--heart-light) 0%, rgba(255,255,255,1) 100%);
+        text-align: center;
+    }
+    
+    .hero-hearts {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        top: 0;
+        left: 0;
+        pointer-events: none;
+        z-index: 0;
     }
     
     .hero-heart {
         position: absolute;
-        opacity: 0.1;
-        z-index: 0;
-    }
-    
-    .hero-heart-1 {
-        top: 10%;
-        left: 5%;
-        font-size: 10rem;
-        animation: float 6s ease-in-out infinite;
-    }
-    
-    .hero-heart-2 {
-        bottom: 15%;
-        right: 10%;
-        font-size: 8rem;
+        opacity: 0.08;
+        color: var(--heart-primary);
         animation: float 8s ease-in-out infinite;
     }
     
+    @keyframes float {
+        0%, 100% { transform: translateY(0) rotate(0deg); }
+        50% { transform: translateY(-30px) rotate(5deg); }
+    }
+    
+    .hero-content {
+        position: relative;
+        z-index: 2;
+    }
+    
+    .hero-title {
+        font-size: 3.5rem;
+        font-weight: 700;
+        margin-bottom: 1.5rem;
+        background: linear-gradient(to right, var(--heart-primary), var(--accent-blue));
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        text-shadow: 0 2px 10px rgba(0,0,0,0.05);
+    }
+    
+    .hero-subtitle {
+        font-size: 1.5rem;
+        color: var(--accent-blue);
+        margin-bottom: 2.5rem;
+        max-width: 800px;
+        margin-left: auto;
+        margin-right: auto;
+    }
+    
+    /* Feature Cards */
+    .features-section {
+        padding: 5rem 0;
+        background-color: var(--light-bg);
+    }
+    
+    .section-title {
+        text-align: center;
+        margin-bottom: 3rem;
+        position: relative;
+    }
+    
+    .section-title h2 {
+        font-size: 2.5rem;
+        color: var(--accent-blue);
+        margin-bottom: 1rem;
+    }
+    
+    .section-title p {
+        color: var(--accent-teal);
+        font-size: 1.2rem;
+    }
+    
+    .section-title::after {
+        content: '';
+        display: block;
+        width: 80px;
+        height: 4px;
+        background: linear-gradient(to right, var(--heart-primary), var(--accent-teal));
+        margin: 1.5rem auto 0;
+        border-radius: 2px;
+    }
+    
+    .feature-cards {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 2rem;
+        margin-top: 3rem;
+    }
+    
     .feature-card {
-        transition: all 0.3s ease;
-        border-radius: 15px;
+        background: white;
+        border-radius: 16px;
         overflow: hidden;
-        border: none;
-        box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+        box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+        transition: all 0.3s ease;
+        position: relative;
+        border: 1px solid rgba(0,0,0,0.05);
     }
     
     .feature-card:hover {
         transform: translateY(-10px);
-        box-shadow: 0 15px 30px rgba(220,53,69,0.1);
+        box-shadow: 0 15px 40px rgba(220,53,69,0.15);
     }
     
     .feature-icon {
+        width: 80px;
+        height: 80px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 0 auto 1.5rem;
         font-size: 2.5rem;
-        margin-bottom: 1rem;
-        color: #dc3545;
-    }
-    
-    @keyframes float {
-        0% { transform: translateY(0px); }
-        50% { transform: translateY(-20px); }
-        100% { transform: translateY(0px); }
-    }
-    
-    .btn-heart-primary {
-        background-color: #dc3545;
         color: white;
-        border: none;
-        padding: 0.75rem 2rem;
+    }
+    
+    .risk-icon { background: linear-gradient(135deg, var(--heart-primary), var(--heart-dark)); }
+    .meal-icon { background: linear-gradient(135deg, var(--accent-teal), var(--accent-blue)); }
+    .med-icon { background: linear-gradient(135deg, #4caf50, #2e7d32); }
+    
+    .feature-content {
+        padding: 2rem;
+        text-align: center;
+    }
+    
+    .feature-content h3 {
+        font-size: 1.5rem;
+        margin-bottom: 1rem;
+        color: var(--accent-blue);
+    }
+    
+    .feature-content p {
+        color: #666;
+        margin-bottom: 1.5rem;
+        line-height: 1.6;
+    }
+    
+    .btn-db {
+        background:  linear-gradient(to right, #e8838ed6, #6c0f18); 
+        color: white;
+        box-shadow: 0 5px 15px rgba(111, 66, 193, 0.3);
+    }
+    .btn-db:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 8px 20px rgba(102, 24, 31, 0.704);
+        color: white;
+    }
+    /* Buttons */
+    .btn {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        padding: 0.8rem 2rem;
         border-radius: 50px;
         font-weight: 600;
+        text-decoration: none;
         transition: all 0.3s ease;
+        border: none;
+        cursor: pointer;
     }
     
-    .btn-heart-primary:hover {
-        background-color: #bb2d3b;
-        transform: translateY(-2px);
+    .btn-risk {
+        background: #ffbab9; 
+        color: black;
         box-shadow: 0 5px 15px rgba(220,53,69,0.3);
     }
+    
+    .btn-risk:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 8px 20px rgba(102, 24, 31, 0.704);
+        color: black;
+    }
+    
+    .btn-meal {
+        background: #ff7b7b; 
+        color: black;
+        box-shadow: 0 5px 15px rgba(29,53,87,0.3);
+    }
+    
+    .btn-meal:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 8px 20px rgba(102, 24, 31, 0.704);
+        color: black;
+    }
+    
+    .btn-med {
+        background: #ff5252; 
+        color: black;
+        box-shadow: 0 5px 15px rgba(46,125,50,0.3);
+    }
+    
+    .btn-med:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 8px 20px rgba(102, 24, 31, 0.704);
+        color: black;
+    }
+    
+    /* reviews */
+    .testimonials {
+        padding: 5rem 0;
+        background: var(--light-bg);
+    }
+    
+    .testimonial-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 2rem;
+        margin-top: 3rem;
+    }
+    
+    .testimonial-card {
+        background: white;
+        padding: 2rem;
+        border-radius: 16px;
+        box-shadow: 0 5px 20px rgba(0,0,0,0.05);
+    }
+    
+    .testimonial-header {
+        display: flex;
+        align-items: center;
+        margin-bottom: 1.5rem;
+    }
+    
+    .testimonial-img {
+        width: 60px;
+        height: 60px;
+        border-radius: 50%;
+        object-fit: cover;
+        margin-right: 1rem;
+        border: 3px solid var(--heart-light);
+    }
+    
+    .testimonial-author {
+        font-weight: 600;
+        color: var(--accent-blue);
+    }
+    
+    .testimonial-role {
+        color: var(--accent-teal);
+        font-size: 0.9rem;
+    }
+    
+    .testimonial-text {
+        color: #555;
+        font-style: italic;
+        line-height: 1.6;
+        margin-bottom: 1.5rem;
+    }
+    
+    .testimonial-rating {
+        color: #ffc107;
+    }
+
+    .bg-heart-dark {
+    background-color: #343a40 !important;
+    }
+
+    footer .text-heart-light {
+    color: white !important;
+    }
+
 </style>
 {% endblock %}
 
 {% block content %}
+<!-- Hero Section -->
 <div class="hero-section">
-    <i class="bi bi-heart-fill hero-heart hero-heart-1 text-heart-primary"></i>
-    <i class="bi bi-heart hero-heart hero-heart-2 text-heart-primary"></i>
+    <div class="hero-hearts">
+        <i class="bi bi-heart-fill hero-heart" style="top: 20%; left: 10%; font-size: 10rem;"></i>
+        <i class="bi bi-heart hero-heart" style="top: 70%; left: 80%; font-size: 8rem; animation-delay: 1s;"></i>
+        <i class="bi bi-heart-half hero-heart" style="top: 40%; left: 75%; font-size: 6rem; animation-delay: 2s;"></i>
+    </div>
     
-    <div class="container" style="z-index: 1;">
-        <div class="row align-items-center">
-            <div class="col-lg-6">
-                <h1 class="display-4 fw-bold mb-4 animate__animated animate__fadeInDown">Take Control of Your <span class="text-heart-primary">Heart Health</span></h1>
-                <p class="lead mb-4 animate__animated animate__fadeIn animate__delay-1s">HeartGuard provides personalized heart disease risk assessment and health recommendations based on clinical parameters and advanced machine learning.</p>
-                <div class="d-flex gap-3 animate__animated animate__fadeIn animate__delay-2s">
-                    <a href="{{ url_for('assessment') }}" class="btn btn-heart-primary btn-lg px-4">
-                        Start Assessment <i class="bi bi-arrow-right ms-2"></i>
-                    </a>
-
-                </div>
-            </div>
-            <div class="ecg-wave-container">
-                <img src="../static/assets/image.png" alt="protected heartbeats" class="hero-bg-img">
-            </div>
+    <div class="container hero-content">
+        <h1 class="hero-title">HeartGuard</h1>
+        <p class="hero-subtitle">Your Complete Heart Health Companion</p>
+        
+        <div class="cta-buttons">
+            <a href="{{ url_for('assessment') }}" class="btn btn-risk">
+                <i class="bi bi-clipboard2-pulse me-2"></i> Risk Analysis
+            </a>
+            <a href="{{ url_for('meal_planner_form') }}" class="btn btn-meal">
+                <i class="bi bi-cup-straw me-2"></i> Meal Planner
+            </a>
+            <a href="{{ url_for('med_reminder_home') }}" class="btn btn-med">
+                <i class="bi bi-plus-circle me-2"></i> Set Reminders
+            </a>
         </div>
     </div>
 </div>
 
-<section id="how-it-works" class="py-5 bg-white">
+<!-- Features Section -->
+<section class="features-section" id="features">
     <div class="container">
-        <div class="text-center mb-5">
-            <h2 class="fw-bold">How HeartGuard Works</h2>
-            <p class="text-muted">Three simple steps to understand your heart health</p>
-            <div class="heart-divider">
-                <i class="bi bi-heart-fill"></i>
-                <i class="bi bi-heart-fill"></i>
-                <i class="bi bi-heart-fill"></i>
+        
+        <div class="feature-card">
+            <div class="feature-content">
+                <div class="feature-icon" style="background: linear-gradient(to right, #e8838ed6, #6c0f18);">
+                    <i class="bi bi-speedometer2"></i>
+                </div>
+                <h3>Health Dashboard</h3>
+                <p>Track your heart health progress with interactive charts and personalized insights.</p>
+                <a href="{{ url_for('dashboard') }}" class="btn btn-db">
+                    <i class="bi bi-graph-up me-2" style="color: white;"></i> View Dashboard
+                </a>
             </div>
         </div>
-        <div class="row g-4">
-            <div class="col-md-4">
-                <div class="feature-card h-100 p-4 text-center">
-                    <div class="feature-icon">
+        <div class="feature-cards">
+            <!-- Risk Analysis Card -->
+            <div class="feature-card">
+                <div class="feature-content">
+                    <div class="feature-icon risk-icon">
                         <i class="bi bi-clipboard2-pulse"></i>
                     </div>
-                    <h3>Complete Assessment</h3>
-                    <p class="text-muted">Provide your health parameters through our secure, easy-to-use form that takes just 5 minutes.</p>
+                    <h3>Heart Risk Analysis</h3>
+                    <p>Get a personalized assessment of your cardiovascular risk factors based on clinical parameters and lifestyle habits.</p>
+                    <a href="{{ url_for('assessment') }}" class="btn btn-risk">Assess Your Risk</a>
                 </div>
             </div>
-            <div class="col-md-4">
-                <div class="feature-card h-100 p-4 text-center">
-                    <div class="feature-icon">
-                        <i class="bi bi-cpu"></i>
+            
+            <!-- Meal Planner Card -->
+            <div class="feature-card">
+                <div class="feature-content">
+                    <div class="feature-icon meal-icon">
+                        <i class="bi bi-cup-straw me-2"></i>
                     </div>
-                    <h3>AI Analysis</h3>
-                    <p class="text-muted">Our clinically validated machine learning model analyzes your risk factors with 92% accuracy.</p>
+                    <h3>Smart Meal Planner</h3>
+                    <p>Personalized heart-healthy meal plans tailored to your risk level, dietary preferences, and nutritional needs.</p>
+                    <a href="{{ url_for('meal_planner_form') }}" class="btn btn-meal">Plan Your Meals</a>
                 </div>
             </div>
-            <div class="col-md-4">
-                <div class="feature-card h-100 p-4 text-center">
-                    <div class="feature-icon">
-                        <i class="bi bi-graph-up"></i>
+            
+            <!-- Medication Reminder Card -->
+            <!-- In your home.html, add this card to the feature-cards section -->
+            <div class="feature-card">
+                <div class="feature-content">
+                    <div class="feature-icon med-icon">
+                        <i class="bi bi-capsule"></i>
                     </div>
-                    <h3>Personalized Results</h3>
-                    <p class="text-muted">Receive detailed risk assessment, health insights, and actionable recommendations.</p>
+                    <h3>Medication Reminder</h3>
+                    <p>Upload your prescription or enter medications to create personalized reminders.</p>
+                    <br>
+                    <a href="{{ url_for('med_reminder_home') }}" class="btn btn-med">
+                        <i class="bi bi-plus-circle me-2"></i> Set Reminders
+                    </a>
                 </div>
             </div>
         </div>
     </div>
 </section>
 
-<section class="py-5 bg-heart-light">
+<!-- Risk Analysis Section -->
+<section class="features-section" id="risk-analysis">
     <div class="container">
+        <div class="section-title">
+            <h2>Heart Risk Analysis</h2>
+            <p>Understand your cardiovascular risk factors</p>
+        </div>
+        
         <div class="row align-items-center">
             <div class="col-lg-6 mb-4 mb-lg-0">
-                <div class="heart-rate-display">
-                    <div class="heart-beat">
-                        <div class="beat-line"></div>
-                    </div>
-                    <div class="heart-rate-info">
-                        <h3 class="text-heart-primary">Track Your Progress</h3>
-                        <p>Monitor changes in your heart health over time with our intuitive dashboard.</p>
-                        <a href="{{ url_for('dashboard') }}" class="btn btn-outline-heart-primary">View Dashboard</a>
-                    </div>
-                </div>
+                <img src="https://images.unsplash.com/photo-1579684385127-1ef15d508118?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=880&q=80" 
+                     alt="Heart health assessment" class="img-fluid rounded-3 shadow">
             </div>
             <div class="col-lg-6">
-                <h2 class="fw-bold mb-3">Why Heart Health Matters</h2>
-                <div class="accordion" id="heartHealthAccordion">
-                    <div class="accordion-item border-0 mb-3 shadow-sm">
-                        <h2 class="accordion-header">
-                            <button class="accordion-button bg-white" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne">
-                                <i class="bi bi-heart-pulse text-heart-primary me-2"></i> Heart Disease Facts
-                            </button>
-                        </h2>
-                        <div id="collapseOne" class="accordion-collapse collapse show" data-bs-parent="#heartHealthAccordion">
-                            <div class="accordion-body">
-                                <p>Heart disease is the leading cause of death globally, responsible for 17.9 million deaths each year. Early detection and lifestyle changes can prevent 80% of premature heart disease.</p>
-                            </div>
-                        </div>
+                <h3 class="mb-3">Personalized Risk Assessment</h3>
+                <p class="mb-4">Our clinically validated assessment evaluates your risk factors including:</p>
+                
+                <ul class="list-unstyled mb-4">
+                    <li class="mb-2"><i class="bi bi-check-circle-fill text-success me-2"></i> Blood pressure and cholesterol levels</li>
+                    <li class="mb-2"><i class="bi bi-check-circle-fill text-success me-2"></i> Family history of heart disease</li>
+                    <li class="mb-2"><i class="bi bi-check-circle-fill text-success me-2"></i> Lifestyle factors (smoking, activity level)</li>
+                    <li class="mb-2"><i class="bi bi-check-circle-fill text-success me-2"></i> Diabetes and weight metrics</li>
+                </ul>
+                
+                <a href="{{ url_for('assessment') }}" class="btn btn-risk">
+                    <i class="bi bi-clipboard2-pulse me-2"></i> Start Assessment
+                </a>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Meal Planner Section -->
+<section class="features-section bg-white" id="meal-planner">
+    <div class="container">
+        <div class="section-title">
+            <h2>Heart-Healthy Meal Planner</h2>
+            <p>Nutrition tailored to your cardiovascular needs</p>
+        </div>
+        
+        <div class="row align-items-center flex-lg-row-reverse">
+            <div class="col-lg-6 mb-4 mb-lg-0">
+                <img src="https://images.unsplash.com/photo-1546069901-ba9599a7e63c?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=880&q=80" 
+                     alt="Healthy meals" class="img-fluid rounded-3 shadow">
+            </div>
+            <div class="col-lg-6">
+                <h3 class="mb-3">Personalized Nutrition Plans</h3>
+                <p class="mb-4">Our meal planner creates customized plans based on:</p>
+                
+                <ul class="list-unstyled mb-4">
+                    <li class="mb-2"><i class="bi bi-check-circle-fill text-success me-2"></i> Your heart disease risk level</li>
+                    <li class="mb-2"><i class="bi bi-check-circle-fill text-success me-2"></i> Dietary preferences (vegetarian/non-vegetarian)</li>
+                    <li class="mb-2"><i class="bi bi-check-circle-fill text-success me-2"></i> Calorie needs for your goals</li>
+                    <li class="mb-2"><i class="bi bi-check-circle-fill text-success me-2"></i> Heart-healthy nutrient balance</li>
+                </ul>
+                
+                <a href="{{ url_for('meal_planner_form') }}" class="btn btn-meal">
+                    <i class="bi bi-utensils me-2"></i> Create Meal Plan
+                </a>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Medication Reminder Section -->
+<section class="features-section" id="med-reminder">
+    <div class="container">
+        <div class="section-title">
+            <h2>Medication Reminder</h2>
+            <p>Never miss a dose of your heart medications</p>
+        </div>
+        
+        <div class="row align-items-center">
+            <div class="col-lg-6 mb-4 mb-lg-0">
+                <img src="https://images.unsplash.com/photo-1587854692152-cbe660dbde88?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=880&q=80" 
+                     alt="Medication reminder" class="img-fluid rounded-3 shadow">
+            </div>
+            <div class="col-lg-6">
+                <h3 class="mb-3">Smart Medication Tracking</h3>
+                <p class="mb-4">Our reminder system helps you stay on track with:</p>
+                
+                <ul class="list-unstyled mb-4">
+                    <li class="mb-2"><i class="bi bi-check-circle-fill text-success me-2"></i> Customizable medication schedules</li>
+                    <li class="mb-2"><i class="bi bi-check-circle-fill text-success me-2"></i> Refill reminders before you run out</li>
+                    <li class="mb-2"><i class="bi bi-check-circle-fill text-success me-2"></i> Interaction warnings between medications</li>
+                    <li class="mb-2"><i class="bi bi-check-circle-fill text-success me-2"></i> Progress tracking and history</li>
+                </ul>
+                
+                <a href="{{ url_for('med_reminder_home') }}" class="btn btn-med">
+                    <i class="bi bi-plus-circle me-2"></i> Set Reminders
+                </a>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- to be edited -->
+<!-- Testimonials Section -->
+<section class="testimonials">
+    <div class="container">
+        <div class="section-title">
+            <h2>Reviews</h2>
+            <p>Hear from people who improved their heart health</p>
+        </div>
+        
+        <div class="testimonial-grid">
+            <!-- Testimonial 1 -->
+            <div class="testimonial-card">
+                <div class="testimonial-header">
+                    <img src="https://randomuser.me/api/portraits/women/45.jpg" class="testimonial-img">
+                    <div>
+                        <div class="testimonial-author">Sarah Johnson</div>
+                        <div class="testimonial-role">Age 58, High Risk → Moderate</div>
                     </div>
-                    <div class="accordion-item border-0 mb-3 shadow-sm">
-                        <h2 class="accordion-header">
-                            <button class="accordion-button collapsed bg-white" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo">
-                                <i class="bi bi-shield-check text-heart-primary me-2"></i> Prevention Tips
-                            </button>
-                        </h2>
-                        <div id="collapseTwo" class="accordion-collapse collapse" data-bs-parent="#heartHealthAccordion">
-                            <div class="accordion-body">
-                                <ul class="list-group list-group-flush">
-                                    <li class="list-group-item border-0">Eat a heart-healthy diet</li>
-                                    <li class="list-group-item border-0">Exercise regularly (150 mins/week)</li>
-                                    <li class="list-group-item border-0">Maintain a healthy weight</li>
-                                    <li class="list-group-item border-0">Manage stress effectively</li>
-                                    <li class="list-group-item border-0">Get regular health screenings</li>
-                                </ul>
-                            </div>
-                        </div>
+                </div>
+                <p class="testimonial-text">"Using all three tools together helped me lower my blood pressure and cholesterol within 6 months. The meal plans are delicious and easy to follow!"</p>
+                <div class="testimonial-rating">
+                    <i class="bi bi-star-fill"></i>
+                    <i class="bi bi-star-fill"></i>
+                    <i class="bi bi-star-fill"></i>
+                    <i class="bi bi-star-fill"></i>
+                    <i class="bi bi-star-fill"></i>
+                </div>
+            </div>
+            
+            <!-- Testimonial 2 -->
+            <div class="testimonial-card">
+                <div class="testimonial-header">
+                    <img src="https://randomuser.me/api/portraits/men/32.jpg" class="testimonial-img">
+                    <div>
+                        <div class="testimonial-author">Michael Chen</div>
+                        <div class="testimonial-role">Age 62, Post-Bypass</div>
                     </div>
-                    <div class="accordion-item border-0 shadow-sm">
-                        <h2 class="accordion-header">
-                            <button class="accordion-button collapsed bg-white" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree">
-                                <i class="bi bi-graph-up-arrow text-heart-primary me-2"></i> Early Detection
-                            </button>
-                        </h2>
-                        <div id="collapseThree" class="accordion-collapse collapse" data-bs-parent="#heartHealthAccordion">
-                            <div class="accordion-body">
-                                <p>Regular risk assessments can identify potential issues before symptoms appear. Our tool helps you understand your risk factors and take proactive steps toward better heart health.</p>
-                            </div>
-                        </div>
+                </div>
+                <p class="testimonial-text">"The medication reminders have been a lifesaver after my surgery. Combined with the heart-healthy meals, I've never felt better!"</p>
+                <div class="testimonial-rating">
+                    <i class="bi bi-star-fill"></i>
+                    <i class="bi bi-star-fill"></i>
+                    <i class="bi bi-star-fill"></i>
+                    <i class="bi bi-star-fill"></i>
+                    <i class="bi bi-star-half"></i>
+                </div>
+            </div>
+            
+            <!-- Testimonial 3 -->
+            <div class="testimonial-card">
+                <div class="testimonial-header">
+                    <img src="https://randomuser.me/api/portraits/women/68.jpg" class="testimonial-img">
+                    <div>
+                        <div class="testimonial-author">Priya Patel</div>
+                        <div class="testimonial-role">Age 42, Preventive Care</div>
                     </div>
+                </div>
+                <p class="testimonial-text">"The risk assessment showed me areas to improve before problems developed. Now I use all three tools to maintain my heart health."</p>
+                <div class="testimonial-rating">
+                    <i class="bi bi-star-fill"></i>
+                    <i class="bi bi-star-fill"></i>
+                    <i class="bi bi-star-fill"></i>
+                    <i class="bi bi-star-fill"></i>
+                    <i class="bi bi-star-fill"></i>
                 </div>
             </div>
         </div>
     </div>
 </section>
 
-<section class="py-5 bg-white">
-    <div class="container text-center">
-        <h2 class="fw-bold mb-4">Ready to Check Your Heart Health?</h2>
-        <p class="lead mb-5">Take the first step toward a healthier heart today</p>
-        <a href="{{ url_for('assessment') }}" class="btn btn-heart-primary btn-lg px-5 py-3">
-            Start Free Assessment <i class="bi bi-arrow-right ms-2"></i>
-        </a>
-    </div>
-</section>
 {% endblock %}
 
 {% block extra_js %}
 <script>
-    // Heart beat animation
     document.addEventListener('DOMContentLoaded', function() {
-        // Animate the heart line in the monitor
-        const heartLine = document.querySelector('.heart-line');
-        if (heartLine) {
-            setInterval(() => {
-                heartLine.style.animation = 'none';
-                void heartLine.offsetWidth; // Trigger reflow
-                heartLine.style.animation = 'heartbeat 1.5s ease-in-out infinite';
-            }, 100);
-        }
+        // Animate floating hearts
+        const hearts = document.querySelectorAll('.hero-heart');
+        hearts.forEach((heart, index) => {
+            heart.style.animationDelay = `${index * 2}s`;
+        });
         
-        // Animate pulse indicator
-        const pulseIndicator = document.querySelector('.pulse-indicator');
-        if (pulseIndicator) {
-            setInterval(() => {
-                pulseIndicator.classList.toggle('pulse');
-            }, 1500);
-        }
+        // Smooth scrolling for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                if (this.getAttribute('href') !== '#') {
+                    e.preventDefault();
+                    document.querySelector(this.getAttribute('href')).scrollIntoView({
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
     });
 </script>
 {% endblock %}
