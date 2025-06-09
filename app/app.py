@@ -18,10 +18,13 @@ from utils.medication_reminder import (  # Import your medication functions
 )
 from routes.meal import meal_bp
 from routes.medication import med_bp
+from dotenv import load_dotenv
+
+load_dotenv()
 
 # Initialize Flask Application
 app = Flask(__name__)
-app.secret_key = 'your-secret-key-here'  # Change this for production
+# app.secret_key = 'your-secret-key-here'  # Change this for production
 
 # Initialize Firebase Admin
 def initialize_firebase():
@@ -78,7 +81,15 @@ def validate_form_input(risk, pref, duration):
 
 @app.route('/')
 def home():
-    return render_template('index.html')
+    firebase_config = {
+        "apiKey": os.getenv("FIREBASE_API_KEY"),
+        "authDomain": os.getenv("FIREBASE_AUTH_DOMAIN"),
+        "projectId": os.getenv("FIREBASE_PROJECT_ID"),
+        "storageBucket": os.getenv("FIREBASE_STORAGE_BUCKET"),
+        "messagingSenderId": os.getenv("FIREBASE_MESSAGING_SENDER_ID"),
+        "appId": os.getenv("FIREBASE_APP_ID")
+    }
+    return render_template("index.html", firebase_config=firebase_config)
 
 @app.route('/auth')
 def auth():

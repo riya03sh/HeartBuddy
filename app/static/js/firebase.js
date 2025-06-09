@@ -4,19 +4,10 @@ import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebas
 import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
 import { getFirestore, setDoc, doc, getDoc, updateDoc } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
 
-const firebaseConfig = {
-  apiKey: "AIzaSyCLtZwe2I1CJZUS4q5hcQXwUfFfbxNIirQ",
-  authDomain: "heartguard-f00a0.firebaseapp.com",
-  projectId: "heartguard-f00a0",
-  storageBucket: "heartguard-f00a0.firebasestorage.app",
-  messagingSenderId: "419587768914",
-  appId: "1:419587768914:web:c63d6675de87c491a0d58b"
-};
-
-// Initialize Firebase
-const app = initializeApp(firebaseConfig);
-const auth = getAuth();
-const db = getFirestore();
+// // Initialize Firebase
+// const app = initializeApp(firebaseConfig);
+// const auth = getAuth();
+// const db = getFirestore();
 
 function showMessage(message, divId) {
   const messageDiv = document.getElementById(divId);

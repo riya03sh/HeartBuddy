@@ -560,4 +560,9 @@
         });
     });
 </script>
+<script>
+  const firebaseConfig = {{ firebase_config | tojson }};
+</script>
+<script src="{{ url_for('static', filename='firebase.js') }}"></script>
+
 {% endblock %}
